@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Home() {
+function Home(props) {
   return (
     <>
       <h1>Superheros API</h1>
@@ -14,3 +14,5 @@ export default function Home() {
     </>
   );
 }
+
+export default Home;

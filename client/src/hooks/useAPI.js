@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const baseUrl = `/api/${process.env.REACT_APP_API_TOKEN}/`;
 
-const requestOptions = ({mode, name, id}) => {
+const requestOptions = ({ mode, name, id }) => {
   const modes = {
     search: {
       method: 'GET',
@@ -12,7 +12,7 @@ const requestOptions = ({mode, name, id}) => {
     id: {
       method: 'GET',
       url: `${baseUrl}/${id}`,
-    }
+    },
   };
 
   return modes[mode];
@@ -28,10 +28,15 @@ const useAPI = (options) => {
   useEffect(() => {
     axios(requestOptions(options))
       .then((result) => {
+        if (result.data.error) {
+          setLoading(false);
+          return setError(result.data.error);
+        }
         setLoading(false);
         setResponse(result.data);
       })
       .catch((err) => {
+        console.log({ err });
         setLoading(false);
         setError(err.message);
         console.log(err.message);
