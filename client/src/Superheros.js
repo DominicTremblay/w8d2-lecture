@@ -8,7 +8,7 @@ export default function Superheros() {
   const state = useContext(StateContext);
 
   if (state.loading) {
-    return <h3>Loading....</h3>
+    return <h3>Loading.......</h3>
   }
 
 
