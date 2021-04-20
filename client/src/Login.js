@@ -2,12 +2,19 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 export default function Login() {
-  
+  const history = useHistory();
+  const { state } = useLocation();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    localStorage.setItem('token', 123);
+    history.push((state && state.from) || `/`);
+  };
   return (
     <>
       <h1>Please Login</h1>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <input type="text" name="email" id="email" placeholder="email" />
         <input
           type="password"

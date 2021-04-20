@@ -6,15 +6,21 @@ import SearchResult from './SearchResult';
 
 export default function Search() {
   const [searchContent, setSearchContent] = useState('');
-    // history
+  // history
+  const history = useHistory();
+  const { path } = useRouteMatch();
 
   // Extract and parse query string (useLocation, queryString.parse )
-  
-  const handleSubmit = (event) => {
+  const { search } = useLocation();
 
+  const { name } = queryString.parse(search);
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     // push to history the query string
+    // another way to do a redirect
+    history.push(`${path}?name=${searchContent}`);
 
   };
 
@@ -31,7 +37,7 @@ export default function Search() {
         <input type="submit" value="Search" />
       </form>
 
-      {/* {name && <SearchResult name={name} />} */}
+      {name && <SearchResult name={name} />}
     </>
   );
 }
