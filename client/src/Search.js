@@ -6,16 +6,23 @@ import SearchResult from './SearchResult';
 
 export default function Search() {
   const [searchContent, setSearchContent] = useState('');
-    // history
+  // history
+  const history = useHistory();
+  const { path } = useRouteMatch();
+
+  // ?name=batman
+  const {search} = useLocation();
+
 
   // Extract and parse query string (useLocation, queryString.parse )
-  
-  const handleSubmit = (event) => {
 
+  const {name} = queryString.parse(search); // => the string 'batman'
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     // push to history the query string
-
+    history.push(`${path}?name=${searchContent}`);
   };
 
   return (
@@ -31,7 +38,7 @@ export default function Search() {
         <input type="submit" value="Search" />
       </form>
 
-      {/* {name && <SearchResult name={name} />} */}
+      {name && <SearchResult name={name} />}
     </>
   );
 }
