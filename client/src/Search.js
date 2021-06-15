@@ -7,18 +7,26 @@ import './Search.scss';
 export default function Search() {
   const [searchContent, setSearchContent] = useState('');
 
-
   // history
 
-  // Extract and parse query string (useLocation, queryString.parse )
-  // install query-string
+  const history = useHistory();
 
+  const { path } = useRouteMatch();
+
+  // Extract and parse query string (useLocation, queryString.parse )
+
+  const { search } = useLocation(); // ?name=batman
+
+  const { name } = queryString.parse(search); // batman
+
+
+  // install query-string
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // push to history the query string
- 
+    history.push(`${path}?name=${searchContent}`);
   };
 
   return (
@@ -34,7 +42,7 @@ export default function Search() {
         <input type="submit" value="Search" />
       </form>
 
-      {/* {name && <SearchResult name={name} />} */}
+      {name && <SearchResult name={name} />}
     </>
   );
 }
