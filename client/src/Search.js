@@ -8,17 +8,31 @@ export default function Search() {
   const [searchContent, setSearchContent] = useState('');
 
 
-  // history
+  // extract the current path
+  const {path} = useRouteMatch();
+
+  // Browser History
+  const history = useHistory();
 
   // Extract and parse query string (useLocation, queryString.parse )
   // install query-string
 
+  // extracting the query string => ?name=batman
+  const {search} = useLocation();
+
+  // extract the value out of the query string => batman
+  const {name} = queryString.parse(search);
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    // implement a redirect
     // push to history the query string
- 
+    // adding a new url to history, redirecting the browser to that path: `/search?name=batman`
+
+    history.push(`${path}?name=${searchContent}`)
+
   };
 
   return (
@@ -34,7 +48,7 @@ export default function Search() {
         <input type="submit" value="Search" />
       </form>
 
-      {/* {name && <SearchResult name={name} />} */}
+      {name && <SearchResult name={name} />}
     </>
   );
 }
