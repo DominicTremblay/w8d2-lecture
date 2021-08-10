@@ -8,10 +8,10 @@ export default function Navbar() {
       <div>Super Hero API</div>
 
       <ul className="menu">
-        <li>Home</li>
-        <li>Superheros</li>
-        <li>Search</li>
-        <li>Login</li>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/superheros'>Superheros</Link></li>
+        <li><Link to='/search'>Search</Link></li>
+        <li><Link to='/login'>Login</Link></li>
       </ul>
     </nav>
   );
