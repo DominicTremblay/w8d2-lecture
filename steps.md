@@ -126,22 +126,26 @@ React Router V6 introduced several changes and improvements over V5:
 
 - Add url parameter
 
-- add useRouteMatch
+- add useLocation
 
-`import { Link, useRouteMatch } from 'react-router-dom';`
+`import { Link, useLocation } from 'react-router-dom';`
 
-`const { path } = useRouteMatch();`
+`const { pathname } = useLocation();`
 
 - Add the path to the Link
 
-`<Link to={`${path}/${id}`}>{name}</Link>`
+`<Link to={`${pathname}/${id}`}>{name}</Link>`
 
 ## Add the route with url parameter
 
 ```js
-<Route path="/superhero/:id">
-  <SuperheroPage superheros={state.superheros} />
-</Route>
+<Route path="/superheros/:id" element={<SuperheroStats />} />
+```
+
+- add the superheros state to it
+
+```js
+<Route path="/superheros/:id" element={<SuperheroStats superheros={state.superheros} />} />
 ```
 
 - Extract the id is superheorpage
@@ -156,27 +160,37 @@ React Router V6 introduced several changes and improvements over V5:
   const superhero = superheros.find(hero => hero.id === id);
   ```
 
+  - destructure the values we need from superhero
+
+  ```js
+    const {
+    name,
+    image: { url },
+    powerstats: { combat, durability, intelligence, power, speed, strength },
+  } = superhero ?? {};
+  ```
+
   - fill out the values
 
 ```js
 {superhero && (
     <div>
-      <h1>{superhero.name}</h1>
+      <h1>{name}</h1>
 
       <div className="hero-details">
         <div className="avatar-image">
-          <img src={superhero.image.url} alt={superhero.name} />
+          <img src={url} alt={name} />
         </div>
         <div className="description">
           <h2>Power Stats</h2>
 
           <ul className='powerstats'>
-            <li>Combat: {superhero.powerstats.combat}</li>
-            <li>Intelligence: {superhero.powerstats.intelligence}</li>
-            <li>Strength: {superhero.powerstats.strength}</li>
-            <li>speed: {superhero.powerstats.speed}</li>
-            <li>Durability: {superhero.powerstats.durability}</li>
-            <li>Power: {superhero.powerstats.power}</li>
+            <li>Combat: {combat}</li>
+            <li>Intelligence: {intelligence}</li>
+            <li>Strength: {strength}</li>
+            <li>speed: {speed}</li>
+            <li>Durability: {durability}</li>
+            <li>Power: {power}</li>
           </ul>
         </div>
       </div>
