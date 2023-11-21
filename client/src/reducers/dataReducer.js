@@ -1,7 +1,7 @@
 export const ADD_SUPERHERO = 'ADD_SUPERHERO';
 
 const dataReducer = (state, action) => {
-  console.log(action);
+  // console.log(action); 
 
   const actions = {
     ADD_SUPERHERO: {
