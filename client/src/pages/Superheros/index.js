@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import './Superheros.scss';
 import SuperheroItem from './SuperheroItem';
+import StateContext from '../../context/StateContext';
 
-function Superheros({superheros, loading}) {
+function Superheros(props) {
+
+  const {superheros, loading} = useContext(StateContext)
 
   const superheroList = superheros.map(({id, name, image}) => <SuperheroItem key={id} id={id} name={name} image={image} />);
 

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import './Search.scss';
 import SearchResult from './SearchResult';
 
-function Search({dispatch}) {
+function Search(props) {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const [searchContent, setSearchContent] = useState('');
@@ -38,7 +38,7 @@ function Search({dispatch}) {
         <input type="submit" value="Search" />
       </form>
 
-      {name && <SearchResult name={name} dispatch={dispatch} />}
+      {name && <SearchResult name={name} />}
     </>
   );
 }

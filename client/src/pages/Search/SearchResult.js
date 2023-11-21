@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useSearch from '../../hooks/useSearch';
 import { ADD_SUPERHERO } from '../../reducers/dataReducer';
+import DispatchContext from '../../context/DispatchContext';
 
-function SearchResult({ name, dispatch }) {
+function SearchResult({ name }) {
   const { heroDetails, loading, error } = useSearch(name);
+
+  const dispatch = useContext(DispatchContext);
 
   const herosList = heroDetails?.results?.map((superhero) => <li key={superhero.id}>{superhero.name} <button onClick={event => dispatch({type: ADD_SUPERHERO, superhero})}>Add</button></li>);
 
