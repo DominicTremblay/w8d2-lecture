@@ -1,12 +1,35 @@
 
 # Setup
 
+## Update to React Router V6
+
+React Router V6 introduced several changes and improvements over V5:
+
+1. **`Switch` Replaced With `Routes`**: In V6, the `Switch` component is replaced by `Routes`. This means where you previously wrapped your route definitions with `Switch`, you now use `Routes`【8†source】.
+
+2. **Changes in Route Definition**: Instead of defining the component to be rendered as children of the `Route` component, V6 uses an `element` prop where you pass the component as a JSX element【8†source】.
+
+3. **`exact` Prop Removed**: The `exact` prop is no longer necessary due to improved path matching algorithms, making route matching more intuitive and flexible【8†source】.
+
+4. **No Separate `react-router-config`**: The functionalities of `react-router-config` are included in the core of React Router V6, removing the need for separate installation【9†source】.
+
+5. **`useHistory` Replaced by `useNavigate`**: The `useNavigate` API replaces `useHistory`, providing navigation functionality【10†source】.
+
+6. **`activeStyle` and `activeClassName` Removed**: These props are removed from `<NavLink />`. Instead, `className` and `style` props now accept a function that provides information about the link's active state【11†source】.
+
+7. **Replace `Redirect` with `Navigate`**: The `Redirect` component is removed. The `Navigate` component is used instead to redirect users【12†source】.
+
+
+
 ## Sass
 
 - `npm install sass`
 
-
 - add .env with REACT_APP_API_TOKEN
+
+- make sure to have the proxy in `package.json`
+
+`"proxy": "https://superheroapi.com/"`
 
 ## Add Link Tags to Menus
 
@@ -26,53 +49,30 @@
 
 ## Add Routes in App
 
-`import {BrowserRouter as Router, Route} from 'react-router-dom';`
+- import `BrowserRouter as Router`, `Routes`, and `Route`
+
+`import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';`
+
+- Add the Router, Routes, and Route
 
 ```js
 <div className="App">
-      <Router>
-        <Navbar />
-
-        <Route path='/'>
-          <Home />
-        </Route>
-
-        <Route path='/superheros'>
-          <Superhero />
-        </Route>
-
-        <Route path='/search'>
-          <Search />
-        </Route>
-
-        <Route path='/login'>
-          <Login />
-        </Route>
-
-      </Router>
-    </div>
-  ```
-
-- Why we need exact path?
-- Add exact path to home
+  <Router>
+    <Navbar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/superheros" element={<Superheros />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  </Router>
+</div>
+```
 
 - Add 404
 
 ```js
-<Route path='*'>
-  <h1>404 - Not Found
-<Route>
-```
-
-- Problem with multiple routes matching
-- Add Switch to Router
-
-```js
-    <div className="App">
-      <Router>
-        <Switch>
-          <Navbar />
-...
+<Route path='*' element={<h1>404 - not Found</h1>} />
 ```
 
 ## Hooks
@@ -81,6 +81,10 @@
 - Go over the reducer
 
 ## Superheros
+
+- Add the state in `app` from `useSuperheros` custom hook
+
+`const {state, dispatch} = useSuperheros();`
 
 - pass superheros props in App
 
