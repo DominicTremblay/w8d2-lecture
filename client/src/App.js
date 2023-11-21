@@ -30,7 +30,7 @@ function App() {
             path="/superheros/:id"
             element={<SuperheroStats superheros={state.superheros} />}
           />
-          <Route path="/search" element={<Search />} />
+          <Route path="/search" element={<Search dispatch={dispatch} />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<h1>404 - not Found</h1>} />
         </Routes>

@@ -1,22 +1,31 @@
 import React from 'react';
+import useSearch from '../../hooks/useSearch';
+import { ADD_SUPERHERO } from '../../reducers/dataReducer';
 
-function SearchResult(props) {
+function SearchResult({ name, dispatch }) {
+  const { heroDetails, loading, error } = useSearch(name);
+
+  const herosList = heroDetails?.results?.map((superhero) => <li key={superhero.id}>{superhero.name} <button onClick={event => dispatch({type: ADD_SUPERHERO, superhero})}>Add</button></li>);
+
   return (
     <div>
-       <h3>Search for: name</h3>
+      <h3>Search for: {name}</h3>
       {/* output loading if loading */}
 
-      <h2>Loading...</h2>
+      {error && <h2>{error}</h2>}
+
+      {loading && <h2>Loading...</h2>}
 
       {/* ouput herosDetails.results if herosDetails */}
 
-       <div className="search-result">
+      {heroDetails && (
+        <div className="search-result">
           <ul>
             {/* list the superhero names */}
-            <li>Superhero Name</li>
+            {herosList}
           </ul>
         </div>
-      
+      )}
     </div>
   );
 }

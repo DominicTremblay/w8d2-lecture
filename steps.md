@@ -200,31 +200,61 @@ React Router V6 introduced several changes and improvements over V5:
 
 ## Search
 
-** Make sure useHistory and useRouteMatch are not inside the SearchResult component **
 
-- useHistory
+1. Add the handleSubmit
 
-`import { useLocation, useRouteMatch, useHistory } from 'react-router-dom';`
+```js
+const handleSubmit = (event) => {
+  event.preventDefault();
 
-`const history = useHistory();`
+  // implement a redirect
+};
+```
 
-- add the path
+2. Implement the redirect in `handleSubmit`
 
-`const {path} = useRouteMatch();`
+- hooks: useNavigate, useLocation
 
-- add redirect to handleSubmit
+```js
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [searchContent, setSearchContent] = useState('');
 
-`history.push(`${path}/name=${searchContent}`)`
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-- Extract the query string from SearchResult
+    // build query string
+    const url = `${pathname}?name=${searchContent}`;
+    // implement a redirect
+    navigate(url);
+  };
+```
 
-`const { search } = useLocation();`
+3. Extract the query string
 
-- Parse the query string
 
-`yarn add query-string`
+`const { pathname, search } = useLocation();`
 
-- add map function to SearchResult
+```js
+// Extracting the query params
+const searchParams = new URLSearchParams(search);
+const name = searchParams.get('name');
+```
+
+4. Add <SearchResult /> after the `form`
+
+- conditional rendering
+- pass the name prop
+
+```js
+{name && <SearchResult name={name} />}
+```
+
+5. Add `useSearch` in `<SearchResult />`
+
+` const { heroDetails, loading, error } = useSearch(name);`
+
+6. add map function to SearchResult
 
 ```js
 <div className="search-result">
@@ -232,6 +262,106 @@ React Router V6 introduced several changes and improvements over V5:
     {heroDetails && heroDetails.results.map(hero => <li>{hero.name}</li>)}
   </ul>
 </div>
+```
+
+7. Add a Button to the search results
+
+- pass down `dispatch` to `<SearchResult />`
+
+- update the map function
+
+```js
+  const herosList = heroDetails?.results?.map((superhero) => <li key={superhero.id}>{superhero.name} <button onClick={event => dispatch({type: ADD_SUPERHERO, superhero})}>Add</button></li>);
+```
+
+
+8. Full `<SearchResult />`
+
+```js
+import React from 'react';
+import useSearch from '../../hooks/useSearch';
+import { ADD_SUPERHERO } from '../../reducers/dataReducer';
+
+function SearchResult({ name, dispatch }) {
+  const { heroDetails, loading, error } = useSearch(name);
+
+  const herosList = heroDetails?.results?.map((superhero) => <li key={superhero.id}>{superhero.name} <button onClick={event => dispatch({type: ADD_SUPERHERO, superhero})}>Add</button></li>);
+
+  return (
+    <div>
+      <h3>Search for: {name}</h3>
+      {/* output loading if loading */}
+
+      {error && <h2>{error}</h2>}
+
+      {loading && <h2>Loading...</h2>}
+
+      {/* ouput herosDetails.results if herosDetails */}
+
+      {heroDetails && (
+        <div className="search-result">
+          <ul>
+            {/* list the superhero names */}
+            {herosList}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default SearchResult;
+```
+
+8. Full `<Search />`
+
+```js
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import './Search.scss';
+import SearchResult from './SearchResult';
+
+function Search({dispatch}) {
+  const navigate = useNavigate();
+  const { pathname, search } = useLocation();
+  const [searchContent, setSearchContent] = useState('');
+  
+  // Extracting the query params
+  const searchParams = new URLSearchParams(search);
+  const name = searchParams.get('name');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // build query string
+    const url = `${pathname}?name=${searchContent}`;
+
+    // reset the form
+    setSearchContent('');
+
+    // implement a redirect
+    navigate(url);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input
+          name="name"
+          type="search"
+          value={searchContent}
+          onChange={(event) => setSearchContent(event.target.value)}
+        />
+
+        <input type="submit" value="Search" />
+      </form>
+
+      {name && <SearchResult name={name} dispatch={dispatch} />}
+    </>
+  );
+}
+
+export default Search;
 ```
 
 ## Add Context
