@@ -1,13 +1,32 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Search.scss';
 import SearchResult from './SearchResult';
 
 function Search(props) {
   const [searchContent, setSearchContent] = useState('');
 
+  const { pathname, search } = useLocation();
+  const navigate = useNavigate();
+
+  // name=Kool-aid
+  const searchParams = new URLSearchParams(search);
+  const name = searchParams.get('name');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // build the query string
+    // currentPath?name=searchContent
+    const url = `${pathname}?name=${searchContent}`;
+
+    // implement a redirect
+    navigate(url);
+  };
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           name="name"
           type="search"
@@ -18,7 +37,7 @@ function Search(props) {
         <input type="submit" value="Search" />
       </form>
 
-      <SearchResult />
+      {name && <SearchResult name={name} />}
     </>
   );
 }
