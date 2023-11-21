@@ -1,19 +1,20 @@
 import React from 'react';
 
 import './Superheros.scss';
-import Superhero from './SuperheroStats';
+import SuperheroItem from './SuperheroItem';
 
-function Superheros(props) {
+function Superheros({superheros, loading}) {
 
-  const superheroList = [<Superhero />];
+  const superheroList = superheros.map(({id, name, image}) => <SuperheroItem key={id} id={id} name={name} image={image} />);
 
 
   return (
     <>
     <h1>Superheros</h1>
 
-    <h2>Loading...</h2>
-    <ul className="superheros">{superheroList}</ul>
+    {loading && <h2>Loading...</h2>}
+
+    {!loading && <ul className="superheros">{superheroList}</ul>}
     
 
   </>

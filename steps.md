@@ -97,6 +97,8 @@ React Router V6 introduced several changes and improvements over V5:
 
 - Add Map function
 
+> Disable Strict Mode in App
+
 ```js
   <ul className='superheros'>
 
