@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Search.scss';
 import SearchResult from './SearchResult';
 
-function Search(props) {
+function Search() {
   const [searchContent, setSearchContent] = useState('');
+
+
+
+  const { pathname, search } = useLocation();
+  const navigate = useNavigate();
+
+  const searchParams = new URLSearchParams(search);
+  const name = searchParams.get('name')
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // http://localhost:3000/search?name=Kool-aid
+
+    const url = `${pathname}?name=${searchContent}`;
+
+    // redirect to url
+    navigate(url);
+  };
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           name="name"
           type="search"
@@ -18,7 +39,7 @@ function Search(props) {
         <input type="submit" value="Search" />
       </form>
 
-      <SearchResult />
+      <SearchResult name={name}/>
     </>
   );
 }
