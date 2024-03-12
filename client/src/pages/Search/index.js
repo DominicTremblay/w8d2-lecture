@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
 import './Search.scss';
 import SearchResult from './SearchResult';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-function Search(props) {
+function Search() {
   const [searchContent, setSearchContent] = useState('');
+
+  const { pathname } = useLocation();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // build the url /search?name=Batman
+    const url = `${pathname}?name=${searchContent}`;
+
+    // redirect to url
+    navigate(url);
+  };
 
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           name="name"
           type="search"

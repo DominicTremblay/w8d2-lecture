@@ -41,7 +41,7 @@ const useAPI = (options) => {
         setError(err.message);
         console.log(err.message);
       });
-  }, []);
+  }, [options]);
 
   return {
     response,

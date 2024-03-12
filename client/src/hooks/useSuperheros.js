@@ -6,7 +6,7 @@ import axios from 'axios';
 const baseUrl = `/api/${process.env.REACT_APP_API_TOKEN}/`;
 
 const useSuperheros = () => {
-  const [superherosIds, setSuperherosIds] = useState([25,50,115,213, 214, 216,230,240,250,260,270,280,300,340,360]);
+  const [superherosIds, setSuperherosIds] = useState([25,50,115,213, 214, 216,230,240,250,260,270,280,300,340,480]);
   const [state, dispatch] = useReducer(dataReducer, {
     superheros: [],
     loading: true,
